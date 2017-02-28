@@ -195,8 +195,8 @@ class Player{
         //console.log(this.map);
 
         for(let gpiosType in gpios){
-            if(this.map[gpiosType][this.bpmCount] != gpios[gpiosType])
-                this.map[gpiosType][this.bpmCount] = gpios[gpiosType];
+            if(this.map[gpiosType][(this.bpmCount-1)] != gpios[gpiosType])
+                this.map[gpiosType][(this.bpmCount-1)] = gpios[gpiosType];
         }
 
         //console.log(this.map);
@@ -324,6 +324,7 @@ class GPIO {
         this.gpiosCorrespondTo = correspondTo;
         this.volume = 50;
         this.gpiosMap = null;
+        this.bpmGPIO = 50;
 
         this._constructGPIOMap();
     }
@@ -361,24 +362,31 @@ class GPIO {
         }
     }
 
+
     upgradeWithInput(newGPIOS){
 
-        //console.log(newGPIOS);
+        let that = this;
 
         for(let gpioNbr in newGPIOS){
             // Test if different => Change value
 
-            let gpioActualValue = this.gpios[gpioNbr];
-            //console.log(gpioActualValue);
+            if(newGPIOS[gpioNbr] != that.gpios[gpioNbr]){
 
-            let gpioNewValue = newGPIOS[gpioNbr];
+                if(this.bpmGPIO != (JSON.parse(JSON.stringify(myplayer.bpmCount)))){
 
-            //console.log(gpioNewValue);
+                    console.log("bpmCount = " + myplayer.bpmCount);
+                    console.log("bpmCountplayer = " + this.bpmGPIO);
 
-            if(gpioNewValue != gpioActualValue){
-                this.gpios[gpioNbr] = newGPIOS[gpioNbr];
-                this._synchronizeMap();
-                this._changePlayerValues();
+                    this.bpmGPIO = (JSON.parse(JSON.stringify(myplayer.bpmCount)));
+
+                    that.gpios[gpioNbr] = newGPIOS[gpioNbr];
+
+                    that._synchronizeMap();
+                    that._changePlayerValues();
+
+                }
+
+
             }
 
         }

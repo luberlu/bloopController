@@ -171,7 +171,7 @@ function HttpServer(options) {
 
     });
 
-  }, 160);
+  }, 200);
 
 
   // Req test for XHR HTTP request (call in public javascript main.js)

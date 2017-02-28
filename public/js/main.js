@@ -60,6 +60,7 @@ $(function() {
 
                         // Send datas to the worker
                         myworker.postMessage({controller: JSON.parse(req.responseText)});
+
                     }
                 }
             }
@@ -68,7 +69,7 @@ $(function() {
         req.send(null);
     };
 
-    intervalController = setInterval(requestController, 160);
+    intervalController = setInterval(requestController, 210);
 
 
     // All worker message here

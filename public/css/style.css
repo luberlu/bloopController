@@ -39,8 +39,9 @@ a.navbar-brand img {
 div#bar {
     display: block;
     height: 26px;
-    width: 100%;
+    width: 92%;
     background: rgba(11, 249, 151, 0.15);
+    padding-left: 9.2%;
 }
 
 span.before-bar {
@@ -63,6 +64,12 @@ div#bar div {
     display: inline-block;
     height: 100%;
     /*transition: all 0.4s ease;*/
+}
+
+.steps {
+    float: left;
+    border: solid 1px white;
+    box-sizing: border-box;
 }
 
 #playerMachine input[type=checkbox], input[type=radio] {
