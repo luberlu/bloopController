@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="favicon.ico" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>bloop.me</title>
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="img/bloop.svg" width="90" height="90">
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="container-fluid">
+
+    <section id="machineSection" class="row" style="display: block">
+        <div id="machine">
+            <header id="control-machine" class="clearfix">
+
+                <h1>Settings</h1>
+
+                <div class="control-play">
+                    <button id="play">play</button>
+                    <button id="stop">stop</button>
+                </div>
+
+                <div class="bpm-block">
+                    <label for="bpm">BPM</label>
+                    <input type="text" id="bpm" name="bpm" value="120">
+                </div>
+
+            </header>
+
+            <div id="bar"></div>
+            <form id='playerMachine'></form>
+
+        </div>
+    </section>
+
+</main>
+
+
+<script id="steps-bar" type="text/x-handlebars-template">
+    {{#step this.infos}}
+        <div class="steps" id="step_{{this.i}}" style="width:{{this.widthStep}}%"></div>
+    {{/step}}
+</script>
+
+<script id="track-bar" type="text/x-handlebars-template">
+
+    <fieldset id="{{this.name}}"><label>{{this.name}}</label>
+
+        {{#bar this.infos}}
+            <label style="width:5.625%; height:100%">
+                <input type="checkbox" name="{{this.name}}" id="{{this.name}}_{{this.i}}" value="{{this.i}}">
+                <span>{{this.name}}_{{this.i}}</span>
+            </label>
+        {{/bar}}
+
+    </fieldset>
+
+    <label for="vol_{{this.name}}"></label>
+    <input id="vol_{{this.name}}" type='text' value='75' class='dial'
+           data-fgColor='#333' data-width='50'
+           data-height='50' data-float='left'
+           data-angleOffset='-125'
+           data-angleArc='250' data-rotation='anticlockwise'>
+
+</script>
+
+
+<script src="js/lib/jquery.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/handlebars-v4.0.5.js"></script>
+
+<script src="js/lib/firebase.js"></script>
+<script src="js/lib/knob.js"></script>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
