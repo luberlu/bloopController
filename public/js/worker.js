@@ -192,8 +192,6 @@ class Player{
 
     changeMapWithController(gpios, volume){
 
-        console.log(this.map);
-
         for(let gpiosType in gpios){
 
             if(this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
@@ -203,8 +201,6 @@ class Player{
             }
 
         }
-
-        console.log(this.map);
 
         // change the map into frontpage
         
@@ -485,8 +481,6 @@ onmessage = function(e){
     // Gpio Controller datas
 
     if(typeof datas.controller !== "undefined"){
-
-        //console.log(datas.controller.gpios["15"]);
 
         if(datas.controller.play == 1){
 
