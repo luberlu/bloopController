@@ -326,6 +326,9 @@ class GPIO {
         this.volume = 50;
         this.gpiosMap = null;
         this.bpmGPIO = 50;
+        this.timeOut = 1;
+        this.beatTimeOut = null;
+        this.lastKey = 50;
 
         this._constructGPIOMap();
     }
@@ -350,6 +353,28 @@ class GPIO {
 
     }
 
+    stopTimeOut(){
+        clearTimeout(this.beatTimeOut);
+    }
+
+    timeOutFn(){
+
+        this.timeOut = 0;
+        let that = this;
+
+        this.beatTimeOut = setTimeout(function(){
+
+            that.timeOut = 1;
+            that.lastKey = 50;
+            
+            that.stopTimeOut();
+
+        }, (60000 / myplayer.bpm));
+
+
+    }
+
+
     _synchronizeMap(){
 
         for(let gpioNbr in this.gpios){
@@ -366,21 +391,27 @@ class GPIO {
 
     upgradeWithInput(newGPIOS){
 
-        let that = this;
 
         for(let gpioNbr in newGPIOS){
             // Test if different => Change value
 
-            if(newGPIOS[gpioNbr] != that.gpios[gpioNbr]){
+            if(newGPIOS[gpioNbr] != this.gpios[gpioNbr]){
 
-                if(this.bpmGPIO != (JSON.parse(JSON.stringify(myplayer.bpmCount)))){
+                if(this.timeOut == 1 || this.lastKey != newGPIOS[gpioNbr]) {
 
-                    this.bpmGPIO = (JSON.parse(JSON.stringify(myplayer.bpmCount)));
+                    this.lastKey = newGPIOS[gpioNbr];
+                    this.timeOutFn();
 
-                    that.gpios[gpioNbr] = newGPIOS[gpioNbr];
+                    if (this.bpmGPIO != (JSON.parse(JSON.stringify(myplayer.bpmCount)))) {
 
-                    that._synchronizeMap();
-                    that._changePlayerValues();
+                        this.bpmGPIO = (JSON.parse(JSON.stringify(myplayer.bpmCount)));
+
+                        this.gpios[gpioNbr] = newGPIOS[gpioNbr];
+
+                        this._synchronizeMap();
+                        this._changePlayerValues();
+
+                    }
 
                 }
 
@@ -397,6 +428,7 @@ class GPIO {
 
 
 }
+
 
 // Kick => 15
 // Snare => 19
