@@ -146,6 +146,9 @@ class Player{
         this.intervalBPM = null;
         this.inst = Inst;
         this.map = {};
+        this.intervalTiming = null;
+        this.Timing = 0;
+        this.differenceTiming = (60000 / this.bpm);
 
         if(typeof loop == "undefined") {
             this._createMapping();
@@ -298,12 +301,31 @@ class Player{
 
                 }, (60000 / that.bpm));
 
+                // Know difference timing
+
+                that.intervalTiming = setInterval(function(){
+
+                    // that.differenceTiming = (60000 / that.bpm) - that.Timing;
+                    // that.Timing = that.Timing + 4;
+                    //
+                    // console.log(that.differenceTiming);
+
+                    console.log(that.Timing);
+                    that.Timing = that.Timing + 4;
+                    //console.log(that.Timing);
+
+
+                }, 1 );
+
             } else {
                 clearInterval(this.intervalPlayer);
 
                 this.bpmCount = 0;
                 this.play = false;
+
                 clearInterval(this.intervalBPM);
+                clearInterval(that.intervalTiming);
+
             }
         }
     }
@@ -312,8 +334,10 @@ class Player{
     bpmCounter(){
         if(this.bpmCount == this.barsNbr){
             this.bpmCount = 1;
-        } else
+        } else {
             this.bpmCount++;
+            this.Timing = 0;
+        }
     }
 }
 
@@ -366,10 +390,10 @@ class GPIO {
 
             that.timeOut = 1;
             that.lastKey = 50;
-            
+
             that.stopTimeOut();
 
-        }, (60000 / myplayer.bpm));
+        }, (60000/that.bpm));
 
 
     }
