@@ -192,14 +192,19 @@ class Player{
 
     changeMapWithController(gpios, volume){
 
-        //console.log(this.map);
+        console.log(this.map);
 
         for(let gpiosType in gpios){
-            if(this.map[gpiosType][(this.bpmCount-1)] != gpios[gpiosType])
-                this.map[gpiosType][(this.bpmCount-1)] = gpios[gpiosType];
+
+            if(this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
+
+                this.map[gpiosType][(this.bpmCount - 1)] = gpios[gpiosType];
+
+            }
+
         }
 
-        //console.log(this.map);
+        console.log(this.map);
 
         // change the map into frontpage
         
@@ -373,9 +378,6 @@ class GPIO {
             if(newGPIOS[gpioNbr] != that.gpios[gpioNbr]){
 
                 if(this.bpmGPIO != (JSON.parse(JSON.stringify(myplayer.bpmCount)))){
-
-                    console.log("bpmCount = " + myplayer.bpmCount);
-                    console.log("bpmCountplayer = " + this.bpmGPIO);
 
                     this.bpmGPIO = (JSON.parse(JSON.stringify(myplayer.bpmCount)));
 

@@ -24,7 +24,6 @@ $(function() {
 
 
     let newUser;
-    let intervalController;
 
     // Create a worker
 
@@ -43,6 +42,8 @@ $(function() {
             barsNbr: barsNbr
         }
     });
+
+    let intervalController;
 
     // Raspberry XMLHttpRequest Part
 
@@ -235,6 +236,7 @@ $(function() {
     // change input state in front when raspberry button works
 
     let changeFrontMap = function(map){
+
 
         for(let mapLine in map){
 

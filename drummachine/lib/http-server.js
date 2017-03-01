@@ -147,7 +147,7 @@ function HttpServer(options) {
 
       // Open the gpio to listen (input no output, nothing to write)
 
-      gpio.open(gpioNbr, "input", function(err) {
+      gpio.open(gpioNbr, "input", function() {
 
         // Gpio state read
 
