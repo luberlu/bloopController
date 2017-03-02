@@ -103,7 +103,7 @@ function HttpServer(options) {
     },
     play: 0,
     stop: 0,
-    volume: 50
+    bpmValueChange: 0
 
   };
 
@@ -129,9 +129,16 @@ function HttpServer(options) {
   // Variables for volume calculs
 
   var result = "0000";
-  var sum = "0000";
   var sum_int = 0;
+  var sum_int_prec = 0;
   var volume = 0;
+
+  var resultCorrespond = {
+    "31" : 0,
+    "33" : 0,
+    "35" : 0,
+    "37" : 0
+  };
 
 
   // Gpios list
@@ -161,6 +168,12 @@ function HttpServer(options) {
           else if(gpioNbr == 15 || gpioNbr == 19 || gpioNbr == 21 || gpioNbr == 23 || gpioNbr == 29)
             request.gpios[gpioNbr] = value;
 
+
+          if(gpioNbr == 31 || gpioNbr == 33 || gpioNbr == 35 || gpioNbr == 37){
+            if(typeof value != "undefined")
+              resultCorrespond[gpioNbr] = value;
+          }
+
           // Close the gpio when it's readed
 
           gpio.close(gpioNbr);
@@ -170,6 +183,21 @@ function HttpServer(options) {
       });
 
     });
+
+    result = resultCorrespond[37].toString() + resultCorrespond[35].toString() +
+        resultCorrespond[33].toString() + resultCorrespond[31].toString();
+
+    sum_int = parseInt(result,2);
+
+    if(sum_int_prec != sum_int){
+
+      if(sum_int_prec < sum_int) volume++;
+      else if(sum_int_prec > sum_int) volume--;
+
+      sum_int_prec = parseInt(result,2);
+    }
+
+    request.bpmValueChange  = volume;
 
   }, 200);
 
