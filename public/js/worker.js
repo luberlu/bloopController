@@ -150,6 +150,11 @@ class Player{
         this.Timing = 0;
         this.differenceTiming = (60000 / this.bpm);
 
+        this.valuesTiming = {
+            "120": 4,
+            "180": 1.85
+        };
+
         if(typeof loop == "undefined") {
             this._createMapping();
             this.type = "myloop";
@@ -197,11 +202,12 @@ class Player{
 
         for(let gpiosType in gpios){
 
-            if(this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
+            if (this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
 
                 this.map[gpiosType][(this.bpmCount - 1)] = gpios[gpiosType];
 
             }
+
 
         }
 
@@ -310,7 +316,7 @@ class Player{
                     //
                     // console.log(that.differenceTiming);
 
-                    console.log(that.Timing);
+                    //console.log(that.Timing);
                     that.Timing = that.Timing + 4;
                     //console.log(that.Timing);
 
@@ -353,6 +359,8 @@ class GPIO {
         this.timeOut = 1;
         this.beatTimeOut = null;
         this.lastKey = 50;
+        this.mapToChange = {};
+        this.mapToChangeCorrespondTo = {};
 
         this._constructGPIOMap();
     }
@@ -412,6 +420,19 @@ class GPIO {
         }
     }
 
+    _synchronizeMapToChange(){
+
+        for(let gpioNbr in this.mapToChange){
+            for(let gpioCorrespond in this.gpiosCorrespondTo){
+
+                if(this.gpiosCorrespondTo[gpioCorrespond] == gpioNbr){
+                    this.mapToChangeCorrespondTo[gpioCorrespond] = this.mapToChange[gpioNbr];
+                }
+
+            }
+        }
+
+    }
 
     upgradeWithInput(newGPIOS){
 
@@ -429,11 +450,14 @@ class GPIO {
                     if (this.bpmGPIO != (JSON.parse(JSON.stringify(myplayer.bpmCount)))) {
 
                         this.bpmGPIO = (JSON.parse(JSON.stringify(myplayer.bpmCount)));
-
                         this.gpios[gpioNbr] = newGPIOS[gpioNbr];
 
+                        this.mapToChange[gpioNbr] = newGPIOS[gpioNbr];
+
                         this._synchronizeMap();
+                        this._synchronizeMapToChange();
                         this._changePlayerValues();
+
 
                     }
 
@@ -444,10 +468,15 @@ class GPIO {
 
         }
 
+        //console.log(this.mapToChangeCorrespondTo);
+
+        this.mapToChange = {};
+        this.mapToChangeCorrespondTo = {};
+
     }
 
     _changePlayerValues(){
-        myplayer.changeMapWithController(this.gpiosMap, this.volume);
+        myplayer.changeMapWithController(this.mapToChangeCorrespondTo, this.volume);
     }
 
 
