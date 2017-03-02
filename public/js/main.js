@@ -31,7 +31,7 @@ $(function() {
 
     // Configuration
 
-    let bpm = 180;
+    let bpm = 120;
     let barsNbr = 16;
 
     // Init Call to Worker
@@ -95,6 +95,10 @@ $(function() {
 
         if (typeof datas.sound !== "undefined") {
             playSound(datas.sound);
+        }
+
+        if (typeof datas.bpmToChange !== "undefined"){
+            bpmChange(datas.bpmToChange);
         }
 
         // If new audio Upload
@@ -227,6 +231,12 @@ $(function() {
             $('#all_loops .ON .progress-bar span').removeClass('on');
             $('#all_loops .ON .progress-bar #' + (BpmCounter - 2)).addClass("on");
         }
+
+    };
+
+    let bpmChange = function(newBPM){
+
+        $('#bpm').val(newBPM);
 
     };
 

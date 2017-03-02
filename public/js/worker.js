@@ -344,7 +344,8 @@ class GPIO {
     constructor(gpios, correspondTo){
         this.gpios = gpios;
         this.gpiosCorrespondTo = correspondTo;
-        this.volume = 50;
+        this.bpmValue = 0;
+        this.lastBpmValue = 50;
         this.gpiosMap = null;
         this.bpmGPIO = 50;
         this.timeOut = 1;
@@ -466,11 +467,28 @@ class GPIO {
 
     }
 
+    changeBPM(bpmChange){
+
+        if(this.lastBpmValue != bpmChange){
+
+            if (this.lastBpmValue < bpmChange) {
+                myplayer.bpm++;
+
+            } else {
+                myplayer.bpm--;
+            }
+
+            postMessage({bpmToChange: myplayer.bpm});
+            this.lastBpmValue = bpmChange;
+
+        }
+
+    }
+
     _changePlayerValues(){
         myplayer.changeMapWithController(this.mapToChangeCorrespondTo, this.volume);
     }
-
-
+    
 }
 
 
@@ -557,6 +575,8 @@ onmessage = function(e){
     // Gpio Controller datas
 
     if(typeof datas.controller !== "undefined"){
+
+        mygpio.changeBPM(datas.controller.bpmValueChange);
 
         if(datas.controller.play == 1){
 
