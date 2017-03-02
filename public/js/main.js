@@ -31,7 +31,7 @@ $(function() {
 
     // Configuration
 
-    let bpm = 120;
+    let bpm = 180;
     let barsNbr = 16;
 
     // Init Call to Worker

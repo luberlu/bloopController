@@ -150,11 +150,6 @@ class Player{
         this.Timing = 0;
         this.differenceTiming = (60000 / this.bpm);
 
-        this.valuesTiming = {
-            "120": 4,
-            "180": 1.85
-        };
-
         if(typeof loop == "undefined") {
             this._createMapping();
             this.type = "myloop";
@@ -202,12 +197,15 @@ class Player{
 
         for(let gpiosType in gpios){
 
-            if (this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
+            //if (this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
 
+            if(this.map[gpiosType][(this.bpmCount - 1)] == 1 && gpios[gpiosType] == 1){
+                this.map[gpiosType][(this.bpmCount - 1)] = 0;
+            } else {
                 this.map[gpiosType][(this.bpmCount - 1)] = gpios[gpiosType];
-
             }
 
+            //}
 
         }
 
@@ -311,15 +309,8 @@ class Player{
 
                 that.intervalTiming = setInterval(function(){
 
-                    // that.differenceTiming = (60000 / that.bpm) - that.Timing;
-                    // that.Timing = that.Timing + 4;
-                    //
-                    // console.log(that.differenceTiming);
-
-                    //console.log(that.Timing);
+                    that.differenceTiming = parseInt((60000 / that.bpm) - that.Timing);
                     that.Timing = that.Timing + 4;
-                    //console.log(that.Timing);
-
 
                 }, 1 );
 
@@ -401,7 +392,7 @@ class GPIO {
 
             that.stopTimeOut();
 
-        }, (60000/that.bpm));
+        }, that.differenceTiming);
 
 
     }
