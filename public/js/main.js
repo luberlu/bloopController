@@ -70,7 +70,7 @@ $(function() {
         req.send(null);
     };
 
-    intervalController = setInterval(requestController, 210);
+    intervalController = setInterval(requestController, 50);
 
 
     // All worker message here

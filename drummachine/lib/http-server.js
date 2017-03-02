@@ -145,6 +145,17 @@ function HttpServer(options) {
 
   var gpiosList = [11, 13, 15, 19, 21, 23, 29, 31, 33, 35, 37];
 
+  gpiosList.forEach(function(gpioNbr) {
+
+    // Open the gpio to listen (input no output, nothing to write)
+
+    gpio.open(gpioNbr, "input", function () {
+
+    });
+
+
+  });
+
 
   // Interval automatically run when server start
 
@@ -152,35 +163,26 @@ function HttpServer(options) {
 
     gpiosList.forEach(function(gpioNbr) {
 
-      // Open the gpio to listen (input no output, nothing to write)
+      // Gpio state read
 
-      gpio.open(gpioNbr, "input", function() {
+      gpio.read(gpioNbr, function(err, value){
 
-        // Gpio state read
+        // Change request object values
 
-        gpio.read(gpioNbr, function(err, value){
+        if(gpioNbr == 11) request.play = value;
+        else if(gpioNbr == 13) request.stop = value;
 
-          // Change request object values
-
-          if(gpioNbr == 11) request.play = value;
-          else if(gpioNbr == 13) request.stop = value;
-
-          else if(gpioNbr == 15 || gpioNbr == 19 || gpioNbr == 21 || gpioNbr == 23 || gpioNbr == 29)
-            request.gpios[gpioNbr] = value;
+        else if(gpioNbr == 15 || gpioNbr == 19 || gpioNbr == 21 || gpioNbr == 23 || gpioNbr == 29)
+          request.gpios[gpioNbr] = value;
 
 
-          if(gpioNbr == 31 || gpioNbr == 33 || gpioNbr == 35 || gpioNbr == 37){
-            if(typeof value != "undefined")
-              resultCorrespond[gpioNbr] = value;
-          }
-
-          // Close the gpio when it's readed
-
-          gpio.close(gpioNbr);
-
-        });
+        if(gpioNbr == 31 || gpioNbr == 33 || gpioNbr == 35 || gpioNbr == 37){
+          if(typeof value != "undefined")
+            resultCorrespond[gpioNbr] = value;
+        }
 
       });
+
 
     });
 
@@ -199,7 +201,7 @@ function HttpServer(options) {
 
     request.bpmValueChange  = volume;
 
-  }, 200);
+  }, 50);
 
 
   // Req test for XHR HTTP request (call in public javascript main.js)

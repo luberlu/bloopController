@@ -199,10 +199,10 @@ class Player{
 
             //if (this.map[gpiosType][(this.bpmCount - 1)] != gpios[gpiosType]) {
 
-            if(this.map[gpiosType][(this.bpmCount - 1)] == 1 && gpios[gpiosType] == 1){
-                this.map[gpiosType][(this.bpmCount - 1)] = 0;
+            if(this.map[gpiosType][(this.bpmCount)] == 1 && gpios[gpiosType] == 1){
+                this.map[gpiosType][(this.bpmCount)] = 0;
             } else {
-                this.map[gpiosType][(this.bpmCount - 1)] = gpios[gpiosType];
+                this.map[gpiosType][(this.bpmCount)] = gpios[gpiosType];
             }
 
             //}
@@ -488,7 +488,7 @@ class GPIO {
     _changePlayerValues(){
         myplayer.changeMapWithController(this.mapToChangeCorrespondTo, this.volume);
     }
-    
+
 }
 
 
